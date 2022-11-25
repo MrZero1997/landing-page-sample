@@ -37,29 +37,43 @@ const sections = document.querySelectorAll("section");
 // build the nav
 
 
-for(let i =1 ; i < 5 ; i++){
+for(let i =1 ; i <= sections.length ; i++){
 const list = document.createElement("li");
 const link = document.createElement("a");
 navUl.appendChild(list);
 list.appendChild(link);
 link.textContent = `section ${i}`;
 link.href=`#section${i}`;
-}
 
-const links = document.querySelectorAll('a');
+}
+const links = document.querySelectorAll("a")
+
 
 // Add class 'active' to section when near top of viewport
 function scrolling(){
   for (const section of sections){
-     const distance = section.getBoundingClientRect().top;
-    if (distance > -1 && distance < 1000){
+     sectionId = section.getAttribute("id");
+     const distanceTop = section.getBoundingClientRect().top;
+     console.log(distanceTop);
+ // Set sections as active
+ // set navigation links as active
+    if (distanceTop > 0 && distanceTop < 250){
       section.classList.add("your-active-class");
-    }
+
+      document.querySelector (".navbar__menu a[href*=" + sectionId + "]")
+      .classList.add("your-active-class");
+      }
+
+
     else {
-      section.classList.remove("your-active-class");
+    section.classList.remove("your-active-class");
+    document.querySelector (".navbar__menu a[href*=" + sectionId + "]")
+    .classList.remove("your-active-class");
+
     }
-  }
+
 }
+};
 
 // Scroll to anchor ID using scroll event
 window.addEventListener("scroll",scrolling)
@@ -78,6 +92,7 @@ ref.addEventListener("click",function (e) {
            behavior: 'smooth'
        });
 
-// Set sections as active
-});ref.classList.add("your-active-class");}
+}
+)};
+
 //End Events
