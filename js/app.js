@@ -18,59 +18,50 @@
  * Great to have comments before crucial code sections within the procedure.
 */
 
-/**
- * Define Global Variables
- *
-*/
+// Define Global Variables
 const navUl = document.getElementById("navbar__list");
 const sections = document.querySelectorAll("section");
-
-
-
+let options = {threshold : [0.4] , rootMargin : "-25px 150px"};
+const links = document.querySelectorAll("a");
 
  // End Global Variables
 
-
-
-
+//check if an element is in viewport then toggle active class
+const observer = new IntersectionObserver(entries => {entries.forEach(entry =>{
+  entry.target.classList.toggle("your-active-class",entry.isIntersecting);
+  const targetID = entry.target.id ;
+  if (entry.isIntersecting){
+// set navigation links as active
+document.querySelector (".navbar__menu a[href*=" + targetID + "]")
+.classList.add("your-active-class");
+}
+else {
+  document.querySelector (".navbar__menu a[href*=" + targetID + "]")
+  .classList.remove("your-active-class");
+}
+})
+},options);
 
 // build the nav
 
 
 for(let i =1 ; i <= sections.length ; i++){
-const list = document.createElement("li");
-const link = document.createElement("a");
+list = document.createElement("li");
+link = document.createElement("a");
 navUl.appendChild(list);
 list.appendChild(link);
 link.textContent = `section ${i}`;
 link.href=`#section${i}`;
-
+link.id=`#section${i}`;
 }
-const links = document.querySelectorAll("a")
+
 
 
 // Add class 'active' to section when near top of viewport
 function scrolling(){
   for (const section of sections){
-     sectionId = section.getAttribute("id");
-     const distanceTop = section.getBoundingClientRect().top;
-     console.log(distanceTop);
- // Set sections as active
- // set navigation links as active
-    if (distanceTop > 0 && distanceTop < 250){
-      section.classList.add("your-active-class");
-
-      document.querySelector (".navbar__menu a[href*=" + sectionId + "]")
-      .classList.add("your-active-class");
-      }
-
-
-    else {
-    section.classList.remove("your-active-class");
-    document.querySelector (".navbar__menu a[href*=" + sectionId + "]")
-    .classList.remove("your-active-class");
-
-    }
+    // Set sections as active
+    observer.observe(section);
 
 }
 };
@@ -96,3 +87,4 @@ ref.addEventListener("click",function (e) {
 )};
 
 //End Events
+
